@@ -1,16 +1,47 @@
-#include<sys/utsname.h>   /* Header for 'uname'  */
+#include<sys/utsname.h> 
+
 #include <stdio.h>
 
-main()
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
 {
- struct utsname uname_pointer;
+    struct utsname uname_pointer;
 
- uname(&uname_pointer);
+    uname(&uname_pointer);
 
- printf("System name - %s \n", uname_pointer.sysname);
- printf("Nodename    - %s \n", uname_pointer.nodename);
- printf("Release     - %s \n", uname_pointer.release);
- printf("Version     - %s \n", uname_pointer.version);
- printf("Machine     - %s \n", uname_pointer.machine);
- //printf("Domain name - %s n", uname_pointer.domainname);
+    puts(
+    "\n"
+    "                      :-==\n"                                
+    "                   .-++++-\n"                                
+    "                  :+++++=\n"                                 
+    "                 .++++=-\n"                                  
+    "                 -+=-:\n"                                    
+    "     .:==++++==-::..:-==+++++=-:\n"                          
+    "   .=+++++++++++++++++++++++++++=-\n"                        
+    "  :=============================-.\n"                        
+    " :=============================.\n"                          
+    " =============================.\n"                           
+    ".++++++++++++++++++++++++++++=\n"                            
+    ".+++++++++++++++++++++++++++++\n"                            
+    " *****************************-\n"                           
+    " +*****************************=\n"                          
+    " .*******************************=.\n"                       
+    "  :*******************************+.\n"                      
+    "   -*****************************+.\n"                       
+    "    :+++++++++++++++++++++++++++=\n"                        
+    "      -------------------------:\n"                          
+    "       .--------:::::--------:\n"                            
+    "          ....          ....\n"                              
+    );
+
+    printf("\n\n"); 
+
+    printf("===\n");
+
+    printf("%s@%s\n", getenv("USER"), uname_pointer.nodename);
+
+    printf("===\n"); 
+    return 0;
+
 }
