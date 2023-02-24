@@ -8,10 +8,10 @@ output: main.o
 	$(CXX) $(CXXFLAGS) -o penguin main.o
 
 main.o: main.c
-	$(CXX) $(CXXFLAGS) -c main.c
+	$(CXX) $(CXXFLAGS) -c src/main.c
 
 clean:
 	rm -f *.o
 
-# Path: penguin/main.c
+# Path: penguin/src/main.c
 

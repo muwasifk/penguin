@@ -1,7 +1,7 @@
 #include<sys/utsname.h> 
 
 #include <stdio.h>
-
+#include <string.h>
 #include <stdlib.h>
 
 int main(int argc, char *argv[])
@@ -37,11 +37,19 @@ int main(int argc, char *argv[])
 
     printf("\n\n"); 
 
-    printf("===\n");
+    char *username; username = getenv("USER"); 
+    char *nodename; nodename = uname_pointer.nodename; 
 
-    printf("%s@%s\n", getenv("USER"), uname_pointer.nodename);
+    for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){
+        putchar('='); 
+    }
+    
+    printf("\n%s@%s\n", username, nodename);
+    
+    for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){
+        putchar('='); 
+    }
 
-    printf("===\n"); 
     return 0;
 
 }
