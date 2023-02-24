@@ -6,7 +6,7 @@
 
 #define BOLD(text) "\033[1m" text "\033[0m"
 
-char* longAssAppleAscii = "\n"
+char* apple = "\n"
                   "                      :-==\n"                                
                   "                   .-++++-\n"                                
                   "                  :+++++=\n"                                 
@@ -30,7 +30,7 @@ char* longAssAppleAscii = "\n"
                   "          ....          ....";
 
 
-char* penguinAscii = "   _\n"
+char* penguin = "   _\n"
                   " ('v')\n"
                   "//-=-\\\\\n"
                   "(\\_=_/)\n"
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     uname(&uname_pointer);
 
-    puts(penguinAscii);
+    puts(penguin);
 
 
     char *username; username = getenv("USER"); 
