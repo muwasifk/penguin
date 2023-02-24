@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define BOLD(text) "\033[1m" text "\033[0m"
+
 int main(int argc, char *argv[])
 {
     struct utsname uname_pointer;
