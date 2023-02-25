@@ -104,10 +104,10 @@ int main(int argc, char *argv[])
     
     printf(BOLD(MAGENTA) "\n(local) " RESET MAGENTA "%s@%s\n" RESET, username, nodename);
     printf(BOLD(MAGENTA) "(OS) " RESET MAGENTA "%s %s %s\n" RESET, uname_pointer.sysname, uname_pointer.release, uname_pointer.machine);
-    //printf(BOLD(MAGENTA) "(kernel) " RESET MAGENTA "%s\n" RESET, uname_pointer.version);
+    printf(BOLD(MAGENTA) "(kernel) " RESET MAGENTA "%s\n" RESET, uname_pointer.version);
     printf(BOLD(MAGENTA) "(shell) " RESET MAGENTA "%s\n" RESET, getenv("SHELL"));
 
-    //print_uptime();
+    print_uptime();
     print_disk_space();
 
 
