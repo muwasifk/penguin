@@ -34,13 +34,13 @@ char* apple = "\n"
                   "          ....          ....";
 
 
-char* penguin = "   _\n"
+char* penguin =   "   _\n"
                   " ('v')\n"
                   "//-=-\\\\\n"
                   "(\\_=_/)\n"
                   " ^^ ^^";
 
-void showColours() {
+void print_colours() {
     printf("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
     printf("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
 }
@@ -80,7 +80,7 @@ void print_disk_space(void) {
     unsigned long long free_blocks = vfs.f_bfree;
     unsigned long long total_space = block_size * total_blocks;
     unsigned long long free_space = block_size * free_blocks;
-    printf(BOLD(MAGENTA) "(disk) " RESET MAGENTA "%.2f GB free of %.2f GB\n", (double)free_space / 1e9, (double)total_space / 1e9);
+    printf(BOLD(MAGENTA) "(disk) " RESET MAGENTA "%.2f GB free of %.2f GB\n"RESET, (double)free_space / 1e9, (double)total_space / 1e9);
 }
 
 int main(int argc, char *argv[])
@@ -89,7 +89,8 @@ int main(int argc, char *argv[])
 
     uname(&uname_pointer);
 
-    puts(penguin);
+    printf(BOLD(BLUE)"%s\n"RESET, penguin);
+    print_colours();
 
 
     char *username; username = getenv("USER"); 
@@ -98,16 +99,18 @@ int main(int argc, char *argv[])
     for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){
         putchar('='); 
     }
+
+    
     
     printf(BOLD(MAGENTA) "\n(local) " RESET MAGENTA "%s@%s\n" RESET, username, nodename);
     printf(BOLD(MAGENTA) "(OS) " RESET MAGENTA "%s %s %s\n" RESET, uname_pointer.sysname, uname_pointer.release, uname_pointer.machine);
-    printf(BOLD(MAGENTA) "(Kernel) " RESET MAGENTA "%s\n" RESET, uname_pointer.version);
-    printf(BOLD(MAGENTA) "(Shell) " RESET MAGENTA "%s\n" RESET, getenv("SHELL"));
+    //printf(BOLD(MAGENTA) "(kernel) " RESET MAGENTA "%s\n" RESET, uname_pointer.version);
+    printf(BOLD(MAGENTA) "(shell) " RESET MAGENTA "%s\n" RESET, getenv("SHELL"));
 
-    print_uptime();
+    //print_uptime();
     print_disk_space();
 
-    showColours();
+
     
     for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){
         putchar('='); 
