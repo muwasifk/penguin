@@ -1,11 +1,13 @@
-#include <sys/utsname.h> 
-
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include <sys/utsname.h> 
 #include <sys/statvfs.h>
 #include <sys/time.h>
-#include "colours.h"
+#include <sys/sysctl.h>
+
+#include "components/colours.h"
 
 
 char* apple = "\n"
@@ -41,25 +43,29 @@ char* penguin = "   _\n"
 void showColours() {
     printf("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
     printf("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
-	
-    // bold colours
-    //printf("\033[1;30m██████\033[0m\033[1;31m██████\033[0m\033[1;32m██████\033[0m\033[1;33m██████\033[0m\033[1;34m██████\033[0m\033[1;35m██████\033[0m\033[1;36m██████\033[0m\033[1;37m██████\033[0m\n");
-    //printf("\033[1;30m██████\033[0m\033[1;31m██████\033[0m\033[1;32m██████\033[0m\033[1;33m██████\033[0m\033[1;34m██████\033[0m\033[1;35m██████\033[0m\033[1;36m██████\033[0m\033[1;37m██████\033[0m\n");
 }
 
-void print_uptime(void) {
-    // Get system uptime
-    struct timeval now;
-    if (gettimeofday(&now, NULL) == -1) {
-        perror("gettimeofday");
-        return;
+struct timespec get_uptime()
+{
+    struct timespec uptime;
+    if (0 != clock_gettime(CLOCK_MONOTONIC_RAW, &uptime))
+    {
+        perror("uptime");
     }
-    unsigned long long total_seconds = now.tv_sec;
-    int days = total_seconds / 86400;
-    int hours = (total_seconds / 3600) % 24;
-    int minutes = (total_seconds / 60) % 60;
-    int seconds = total_seconds % 60;
-    printf(BOLD(MAGENTA) "(uptime) " RESET MAGENTA "%d days, %d hours, %d minutes, %d seconds\n", days, hours, minutes, seconds);
+
+    return uptime;
+}
+
+
+void print_uptime(void) {
+    struct timespec uptime = get_uptime();
+    
+    int days = uptime.tv_sec / 86400; 
+    int hours = ( uptime.tv_sec % 86400 ) / 3600; 
+    int minutes = ( ( uptime.tv_sec % 86400 ) % 3600 ) / 60; 
+    int seconds = ( ( uptime.tv_sec % 86400 ) % 3600 ) % 60; 
+
+    printf("%i days, %i hours, %i minutes, %i seconds\n", days, hours, minutes, seconds); 
 }
 
 void print_disk_space(void) {
