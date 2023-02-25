@@ -65,7 +65,8 @@ void print_uptime(void) {
     int minutes = ( ( uptime.tv_sec % 86400 ) % 3600 ) / 60; 
     int seconds = ( ( uptime.tv_sec % 86400 ) % 3600 ) % 60; 
 
-    printf("%i days, %i hours, %i minutes, %i seconds\n", days, hours, minutes, seconds); 
+
+    printf(BOLD(MAGENTA) "(uptime) " RESET MAGENTA "%i days, %i hours, %i minutes, %i seconds\n" RESET, days, hours, minutes, seconds); 
 }
 
 void print_disk_space(void) {
