@@ -84,6 +84,31 @@ void print_disk_space(void) {
     printf(BOLD(MAGENTA) "(disk) " RESET MAGENTA "%.2f GB free of %.2f GB\n"RESET, (double)free_space / 1e9, (double)total_space / 1e9);
 }
 
+void print_cpu_name(void){
+    char cpu_name[256];
+    size_t size = sizeof(cpu_name);
+    int error = sysctlbyname("machdep.cpu.brand_string", &cpu_name, &size, NULL, 0);
+    
+    printf("CPU name: %s\n", cpu_name);
+}
+
+void print_computer_name(void){
+    size_t len;
+    char *model;
+
+    sysctlbyname("hw.model", NULL, &len, NULL, 0);
+
+    model = malloc(len);
+
+    if (sysctlbyname("hw.model", model, &len, NULL, 0) == -1) {
+        perror("sysctlbyname");
+    }
+
+    printf("Model: %s\n", model);
+    
+    free(model);
+}
+
 int main(int argc, char *argv[])
 {
     struct utsname uname_pointer;
@@ -110,7 +135,8 @@ int main(int argc, char *argv[])
 
     print_uptime();
     print_disk_space();
-
+    print_cpu_name();
+    print_computer_name();
 
     
     for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){
