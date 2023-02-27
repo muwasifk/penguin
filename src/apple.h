@@ -24,4 +24,3 @@ void print_resolutions(void){
 #endif /* APPLE_H */
 
 
-
