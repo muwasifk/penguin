@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <sys/utsname.h> 
-#include <sys/statvfs.h>
-#include <sys/time.h>
-#include <sys/sysctl.h>
 
 #include "components/colours.h"
 
 // https://sourceforge.net/projects/predef/
+#if defined(__unix__) || defined(__unix) || defined(__APPLE__) || defined(__MACH__)
+#include "unix.h"
+#endif
+
 #if defined(__APPLE__) || defined(__MACH__)
 #include "apple.h"
 #elif defined(__linux__)
