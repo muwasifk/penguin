@@ -6,9 +6,17 @@
 #include <sys/statvfs.h>
 #include <sys/time.h>
 #include <sys/sysctl.h>
-#include <CoreGraphics/CoreGraphics.h>
 
 #include "components/colours.h"
+
+// https://sourceforge.net/projects/predef/
+#if defined(__APPLE__) || defined(__MACH__)
+#include "apple.h"
+#elif defined(__linux__)
+#include "linux.h"
+elif defined(_WIN32) || defined(_WIN64)
+#include "windows.h"
+#endif
 
 
 char* apple = "\n"
@@ -110,20 +118,6 @@ void print_computer_name(void){
     free(model);
 }
 
-void print_resolutions(void){
-    uint32_t count;
-    CGGetActiveDisplayList(0, NULL, &count);
-
-    CGDirectDisplayID displays[count];
-    CGGetActiveDisplayList(count, displays, &count);
-
-    for (uint32_t i = 0; i < count; i++) {
-        uint32_t width = CGDisplayPixelsWide(displays[i]);
-        uint32_t height = CGDisplayPixelsHigh(displays[i]);
-
-        printf("Display %d: %ux%u\n", i+1, width, height);
-    }
-}
 
 int main(int argc, char *argv[])
 {
