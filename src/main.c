@@ -6,6 +6,7 @@
 #include <sys/statvfs.h>
 #include <sys/time.h>
 #include <sys/sysctl.h>
+#include <CoreGraphics/CoreGraphics.h>
 
 #include "components/colours.h"
 
@@ -109,6 +110,21 @@ void print_computer_name(void){
     free(model);
 }
 
+void print_resolutions(void){
+    uint32_t count;
+    CGGetActiveDisplayList(0, NULL, &count);
+
+    CGDirectDisplayID displays[count];
+    CGGetActiveDisplayList(count, displays, &count);
+
+    for (uint32_t i = 0; i < count; i++) {
+        uint32_t width = CGDisplayPixelsWide(displays[i]);
+        uint32_t height = CGDisplayPixelsHigh(displays[i]);
+
+        printf("Display %d: %ux%u\n", i+1, width, height);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     struct utsname uname_pointer;
@@ -126,7 +142,30 @@ int main(int argc, char *argv[])
         putchar('='); 
     }
 
-    
+   int name[2] = {CTL_KERN, KERN_OSRELEASE};
+    char *osrelease = NULL;
+    size_t osrelease_len = 0;
+
+    if (sysctl(name, 2, NULL, &osrelease_len, NULL, 0) == -1) {
+        perror("sysctl");
+        return 1;
+    }
+
+    osrelease = malloc(osrelease_len);
+
+    if (osrelease == NULL) {
+        perror("malloc");
+        return 1;
+    }
+
+    if (sysctl(name, 2, osrelease, &osrelease_len, NULL, 0) == -1) {
+        perror("sysctl");
+        return 1;
+    }
+
+    printf("Kernel Version: %s\n", osrelease);
+
+    free(osrelease);
     
     printf(BOLD(MAGENTA) "\n(local) " RESET MAGENTA "%s@%s\n" RESET, username, nodename);
     printf(BOLD(MAGENTA) "(OS) " RESET MAGENTA "%s %s %s\n" RESET, uname_pointer.sysname, uname_pointer.release, uname_pointer.machine);
@@ -137,6 +176,7 @@ int main(int argc, char *argv[])
     print_disk_space();
     print_cpu_name();
     print_computer_name();
+    print_resolutions();
 
     
     for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){

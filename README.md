@@ -1,5 +1,4 @@
 # Penguin Fetch
----
 
 Light and quick alternative to `neofetch` written completely in C. Currently supports macOS (and most likely most Linux distributions) with other operating systems to come shortly. 
 

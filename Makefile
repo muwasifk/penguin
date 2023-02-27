@@ -1,5 +1,5 @@
 CXX = clang
-CXXFLAGS = -pedantic -std=c11
+CXXFLAGS = -pedantic -std=c11 -framework CoreGraphics
 LDFLAGS =  -fsanitize=address
 
 VPATH = SRC INCLUDE 
