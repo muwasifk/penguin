@@ -1,5 +1,5 @@
 CXX = clang
-CXXFLAGS = -pedantic -std=c11 -framework CoreGraphics
+CXXFLAGS = -pedantic -std=c11
 LDFLAGS =  -fsanitize=address
 BIN=/usr/local/bin
 
