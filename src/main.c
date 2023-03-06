@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <assert.h>
 
 #include "components/colours.h"
 
@@ -12,20 +15,54 @@ char* penguin =   "   _\n"
                   "(\\_=_/)\n"
                   " ^^ ^^";
 
+char *centrepenguin[] = {
+    "_",
+    "('v')",
+    "//-=-\\\\",
+    "(\\_=_/)",
+    "^^ ^^"
+};
+
+
+void print_centered(char* text) {
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // get terminal size
+    int text_length = strlen(text);
+    int padding = (w.ws_col - text_length) / 2;
+    for (int i = 0; i < padding; i++) {
+        printf(" ");
+    }
+    printf("%s\n", text);
+}
+
 void print_colours() {
-    printf("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
-    printf("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
+    char* t = "\033[0;30m██\033[0m\033[0;31m██\033[0m\033[0;32m██\033[0m\033[0;33m██\033[0m\033[0;34m██\033[0m\033[0;35m██\033[0m\033[0;36m██\033[0m\033[0;37m██\033[0m\n";
+    assert(strlen(t) > 0); 
+    printf("%lu",strlen(t));
+    print_centered(t);
+    print_centered("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
 }
 
 
 
 int main(int argc, char *argv[])
 {
+struct winsize ws;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
+
+    int rows = ws.ws_row;
+    int cols = ws.ws_col;
+
+    printf("Terminal size: %dx%d\n", cols, rows);
+
+      for (int i = 0; i < 5; i ++){
+        print_centered(centrepenguin[i]);
+      }
+
     struct utsname uname_pointer;
 
     uname(&uname_pointer);
 
-    printf(BOLD(BLUE)"%s\n"RESET, penguin);
     print_colours();
 
 
@@ -57,6 +94,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+ 
+
     printf("Kernel Version: %s\n", osrelease);
 
     free(osrelease);
@@ -70,7 +109,6 @@ int main(int argc, char *argv[])
     print_disk_space();
     print_cpu_name();
     print_computer_name();
-    print_resolutions();
 
     
     for (unsigned long int i = 0; i < strlen(username) + strlen(nodename) + 1; i ++){
