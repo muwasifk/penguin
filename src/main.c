@@ -4,17 +4,7 @@
 
 #include "components/colours.h"
 
-#if defined(__unix__) || defined(__unix) || defined(__APPLE__) || defined(__MACH__)
-#include "unix.h"
-#endif
-
-#if defined(__APPLE__) || defined(__MACH__)
-#include "apple.h"
-#elif defined(__linux__)
-#include "linux.h"
-elif defined(_WIN32) || defined(_WIN64)
-#include "windows.h"
-#endif
+#include "variants/unix.h"
 
 char* penguin =   "   _\n"
                   " ('v')\n"
