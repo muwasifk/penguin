@@ -4,25 +4,12 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <assert.h>
+#include <sys/utsname.h> 
 
 #include "components/colours.h"
+#include "components/ascii.h"
 
-#include "variants/unix.h"
-
-char* penguin =   "   _\n"
-                  " ('v')\n"
-                  "//-=-\\\\\n"
-                  "(\\_=_/)\n"
-                  " ^^ ^^";
-
-char *centrepenguin[] = {
-    "_",
-    "('v')",
-    "//-=-\\\\",
-    "(\\_=_/)",
-    "^^ ^^"
-};
-
+#include "components/unix/inc.h"
 
 void print_centered(char* text) {
     struct winsize w;
@@ -34,16 +21,6 @@ void print_centered(char* text) {
     }
     printf("%s\n", text);
 }
-
-void print_colours() {
-    char* t = "\033[0;30m██\033[0m\033[0;31m██\033[0m\033[0;32m██\033[0m\033[0;33m██\033[0m\033[0;34m██\033[0m\033[0;35m██\033[0m\033[0;36m██\033[0m\033[0;37m██\033[0m\n";
-    assert(strlen(t) > 0); 
-    printf("%lu",strlen(t));
-    print_centered(t);
-    print_centered("\033[0;30m██████\033[0m\033[0;31m██████\033[0m\033[0;32m██████\033[0m\033[0;33m██████\033[0m\033[0;34m██████\033[0m\033[0;35m██████\033[0m\033[0;36m██████\033[0m\033[0;37m██████\033[0m\n");
-}
-
-
 
 int main(int argc, char *argv[])
 {
@@ -73,32 +50,8 @@ struct winsize ws;
         putchar('='); 
     }
 
-   int name[2] = {CTL_KERN, KERN_OSRELEASE};
-    char *osrelease = NULL;
-    size_t osrelease_len = 0;
-
-    if (sysctl(name, 2, NULL, &osrelease_len, NULL, 0) == -1) {
-        perror("sysctl");
-        return 1;
-    }
-
-    osrelease = malloc(osrelease_len);
-
-    if (osrelease == NULL) {
-        perror("malloc");
-        return 1;
-    }
-
-    if (sysctl(name, 2, osrelease, &osrelease_len, NULL, 0) == -1) {
-        perror("sysctl");
-        return 1;
-    }
-
- 
-
-    printf("Kernel Version: %s\n", osrelease);
-
-    free(osrelease);
+    print_kernal_version();
+    print_os(); 
     
     printf(BOLD(MAGENTA) "\n(local) " RESET MAGENTA "%s@%s\n" RESET, username, nodename);
     printf(BOLD(MAGENTA) "(OS) " RESET MAGENTA "%s %s %s\n" RESET, uname_pointer.sysname, uname_pointer.release, uname_pointer.machine);

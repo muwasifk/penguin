@@ -4,15 +4,14 @@
 
 #define MAX_BUF 1024
 
-int main() {
-    char buffer[MAX_BUF];
+void print_os(void){
+char buffer[MAX_BUF];
     char *os_name = NULL;
     char *os_version = NULL;
 
     FILE *sw_vers_pipe = popen("sw_vers", "r");
     if (sw_vers_pipe == NULL) {
         fprintf(stderr, "Failed to execute sw_vers command\n");
-        return 1;
     }
 
     while (fgets(buffer, MAX_BUF, sw_vers_pipe) != NULL) {
@@ -31,11 +30,9 @@ int main() {
         printf("Operating system: %s %s\n", os_name, os_version);
     } else {
         fprintf(stderr, "Failed to retrieve operating system information\n");
-        return 1;
     }
 
     free(os_name);
     free(os_version);
-
-    return 0;
 }
+ 
