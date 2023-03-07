@@ -7,7 +7,7 @@
 
 #include "components/colours.h"
 
-#include "variants/apple.h"
+#include "variants/unix.h"
 
 char* penguin =   "   _\n"
                   " ('v')\n"
