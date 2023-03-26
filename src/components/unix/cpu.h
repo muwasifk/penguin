@@ -4,7 +4,7 @@
 void print_cpu_name(void){
     char cpu_name[256];
     size_t size = sizeof(cpu_name);
-    int error = sysctlbyname("machdep.cpu.brand_string", &cpu_name, &size, NULL, 0);
+    sysctlbyname("machdep.cpu.brand_string", &cpu_name, &size, NULL, 0);
     
     printf("CPU name: %s\n", cpu_name);
 }

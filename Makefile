@@ -1,21 +1,22 @@
-CXX = clang
-CXXFLAGS = -pedantic -std=c11
-LDFLAGS =  -fsanitize=address
-BIN=/usr/local/bin
+CC = gcc
+CFLAGS = -Wall -Werror
+LDFLAGS =
 
-VPATH = SRC INCLUDE 
+SOURCES = $(shell find . -name '*.c')
+OBJECTS = $(SOURCES:%.c=%.o)
+HEADERS = $(shell find . -name '*.h')
 
-output: main.o
-	$(CXX) $(CXXFLAGS) -o penguin main.o
+TARGET = penguin
 
-main.o: main.c
-	$(CXX) $(CXXFLAGS) -c src/main.c
+.PHONY: all clean
 
-install:
-	@sudo cp penguin $(BIN)
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o
-
-# Path: penguin/src/main.c
-
+	rm -f $(OBJECTS) $(TARGET)
